@@ -3,6 +3,7 @@ import datetime
 import urllib.request
 import base64
 import json
+import time
 
 os.system("python install_packages.py")
 
@@ -63,10 +64,11 @@ def get_git_repos(child):
 
     # wait for all gitclones to complete
     while True:
-        child.sendline('ps uax | grep "git clone" | grep -v "grep"')
+        child.sendline('jobs')
         child.expect(PROMPT)
         if not " ".join(child.after.split("\r\n")[1:-1]).split():
             break
+        time.sleep(5)
 
     child.sendline("ls ")
     child.expect(PROMPT)
